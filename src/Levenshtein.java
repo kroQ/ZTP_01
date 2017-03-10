@@ -1,55 +1,46 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author mati
- */
 public class Levenshtein {
-       //TODO moze static?
+
+    int len0, len1;
+    int[] cost, newcost;
+
     public int levenshteinDistance(CharSequence lhs, CharSequence rhs) {
-        int len0 = lhs.length() + 1;
-        int len1 = rhs.length() + 1;
+        setVariables(lhs, rhs);
+        setCost(len0);
+        startCore(len1, lhs, rhs);
+        return cost[len0 - 1];
+    }
 
-        // the array of distances                                                       
-        int[] cost = new int[len0];
-        int[] newcost = new int[len0];
+    private void setVariables(CharSequence lhs, CharSequence rhs) {
+        len0 = lhs.length() + 1;
+        len1 = rhs.length() + 1;
+        cost = new int[len0];
+        newcost = new int[len0];
+    }
 
-        // initial cost of skipping prefix in String s0                                 
+    private void setCost(int len0) {
         for (int i = 0; i < len0; i++) {
             cost[i] = i;
         }
-
-        // dynamically computing the array of distances                                  
-        // transformation cost for each letter in s1                                    
+    }
+    
+    private void startCore(int len1, CharSequence lhs, CharSequence rhs) {
         for (int j = 1; j < len1; j++) {
-            // initial cost of skipping prefix in String s1                             
             newcost[0] = j;
-
-            // transformation cost for each letter in s0                                
-            for (int i = 1; i < len0; i++) {
-                // matching current letters in both strings                             
-                int match = (lhs.charAt(i - 1) == rhs.charAt(j - 1)) ? 0 : 1;
-
-                // computing cost for each transformation                               
-                int cost_replace = cost[i - 1] + match;
-                int cost_insert = cost[i] + 1;
-                int cost_delete = newcost[i - 1] + 1;
-
-                // keep minimum cost                                                    
-                newcost[i] = Math.min(Math.min(cost_insert, cost_delete), cost_replace);
-            }
-
-            // swap cost/newcost arrays                                                 
+            countNewCost(lhs, rhs, j);
             int[] swap = cost;
             cost = newcost;
             newcost = swap;
         }
+    }
 
-        // the distance is the cost for transforming all letters in both strings        
-        return cost[len0 - 1];
+    private void countNewCost(CharSequence lhs, CharSequence rhs, int j) {
+        for (int i = 1; i < len0; i++) {
+            int match = (lhs.charAt(i - 1) == rhs.charAt(j - 1)) ? 0 : 1;
+            int replace = cost[i - 1] + match;
+            int insert = cost[i] + 1;
+            int delete = newcost[i - 1] + 1;
+            newcost[i] = Math.min(Math.min(insert, delete), replace);
+        }
     }
 }
