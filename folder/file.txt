@@ -1,10 +1,10 @@
-imie1 nazwisko1
-imie2 nazwisko2
-imie3 nazwisko3
-imie4 nazwisko4
-imie5 nazwisko5
-imie6 nazwisko6
-imie   nazwisk3o6
+ imie1 nazwisko1
+ imie2 nazwisko2
+ imie3 nazwisko3
+ imie4 nazwisko4
+ imie5 imie52 nazwisko5
+ imie6 nazwisko6
+ imie   nazwisk3o6
 
-imie1
-imie2
+ imie1
+ imie2
