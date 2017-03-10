@@ -6,5 +6,5 @@
  imie6 nazwisko6
  imie   nazwisk3o6
 
- imie1
+ imie3
  imie2

@@ -17,15 +17,14 @@ public class Client {
         BufferedReader reader = null;
         int min = Integer.MAX_VALUE;
         findResult(reader, fileName, line, lev, imie, min);
-        System.out.println("Linia : " + min);
     }
 
     private static void findResult(BufferedReader reader, String fileName,
             int line, Levenshtein lev, String imie, int min) {
         try {
             reader = new BufferedReader(new FileReader(fileName));
-            int tmpInt = 0;
-            readLines(reader, tmpInt, line, lev, imie, min);
+            int tmpInt = 0, result =0;
+            readLines(reader, tmpInt, line, lev, imie, min, result);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -34,7 +33,7 @@ public class Client {
     }
 
     private static void readLines(BufferedReader reader, int tmpInt,
-            int line, Levenshtein lev, String imie, int min)
+            int line, Levenshtein lev, String imie, int min, int result)
             throws IOException {
         String tmp;
         while ((tmp = reader.readLine()) != null) {
@@ -42,12 +41,14 @@ public class Client {
             tmpInt = lev.levenshteinDistance(imie, tmp.trim());
             if (min == 0) {
                 System.out.println("Linia : " + line);
-                return;
+                System.exit(0);
             }
             if (min > tmpInt) {
                 min = tmpInt;
+                result = line;
             }
         }
+        System.out.println("Linia: " + result);
     }
 
     private static void closeReader(BufferedReader reader) {
